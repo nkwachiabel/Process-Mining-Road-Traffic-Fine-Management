@@ -44,19 +44,26 @@ The initial event log consisted of 150370 cases between 1 January 2000 and 17 Ju
 
 The dataset contains other attributes such as the amount (the offender has to pay), expense (the amount paid in sending the fine), paymentAmount (the amount the offender paid), totalPaymentAmount(the total amount the offender has paid), vehicle class (the class of the vehicle), article (the road article that was violated), etc.
 
-In analysing, it is important to use completed cases. The event log was filtered for those cases that either ends in Payment, sent for credit collection or dismissed following a successful appeal.
-
 # Data quality check and transformation
 The event log was reviewed to ensure the data contained were okay to use for process mining. The following was discovered:
 1. Python did not automatically identify the date column. This was fixed subsequently.
 2. Some columns had empty values. This was because certain activities require input in those columns while some do not. For example, expense column is filled only when the send fine activity is done.
 3. The org:resource column which indicates the user who performed a particular activity was constant through out the case. Therefore, it was not possible to check for disaggregation of duties or handover of work.
 4. Since the event log was gotten online, no process owner was contacted to gain further understanding of the process and other columns in the dataset. Therefore, if there are manual events in this process, it is not highlighted here.
+5. In analysing, it is important to use completed cases. The event log was filtered for those cases that either ends in Payment, sent for credit collection or dismissed following a successful appeal. After filtering for the completed cases, we were left with 128,268 events.
 
 # Output and Visualisations
+## Data overview
+![alt text]()
+
+This gives an overview of the dataset. It shows the number of fines, and events and the total fine amount from these events. The stacked column chart at the top right shows the number of fines per year and the vehicle class. It is apparent that the users od vehicle class A are the most frequent traffic offenders.
+
+The points by article number table shows that while Article 157, 7 and 158 are the most frequent articles violated, article 142 and 158 are the violations which result in most most points decucted. This is because Article 142 relates to Speeding tickets and Article 157/158 relates to parking fines.
+
 ## Process discovery
 ![alt text]()
 ---------------------------------------------------
+The Data Overview tab above, shows thw 
 The Graphviz library was used to automatically generate a visual process model based on the event log data. 
 1. <b>Variant analysis</b>: This variant analysis shows how frequently a particular process is followed. From the above, we can see that there is a total of 26 variants. The first 4 variants account for about 83% of all process, Meanwhile 7 variants occur only once. There are some cases which were completed without any approval. These cases have been captured in Variants 1, 3, 9 and 16 comprise 694 cases.
 2. <b>Process graph</b>: The process graph shows how the activity flows from the start of a procurement process to the end. From the process graph, not all the cases need both approval. There are more of 1st approvals than 2nd approvals. In addition, there are four different start cases i.e., <i>Document Date</i>, <i>Invoice Received</i>, <i>1st approval</i>, and <i>Posting Date</i>. 694 payments representing 47% of the cases were made without approval. Out of these payments, 17 were reversals. Out of these payments, 402 (representing all payments made to <i>Vendor 401972</i> were made without approvals.
