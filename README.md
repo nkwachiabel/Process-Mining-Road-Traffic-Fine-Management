@@ -1,6 +1,6 @@
 # Process Discovery and Conformance Checking: Road Traffic Fine Management
 
-This repository contains a data analytics project that utilizes process mining methodology to analyse the real-life event log of an information system managing road traffic fines in Italy. The dataset was gotten from here[https://doi.org/10.4121/uuid:270fd440-1057-4fb9-89a9-b699b47990f5] and it contains fines created between 1st January 2000 to 17 June 2013.
+This repository contains a data analytics project that utilizes process mining methodology to analyse the real-life event log of an information system managing road traffic fines in Italy. The dataset was gotten from [here](https://doi.org/10.4121/uuid:270fd440-1057-4fb9-89a9-b699b47990f5) and it contains fines created between 1st January 2000 to 17 June 2013.
 
 ### Credits
 <b>Publisher</b>: Eindhoven University of Technology
@@ -29,32 +29,34 @@ The goal of this project is to:
 
 # Data collection
 ![alt text]()
-The event log consists of 1696 cases between January 2015 and August 2017. Although, majority of the cases happened in 2017. Each procurement contains the following attributes
-- <b>Document date</b>: 
-- <b>Invoice received</b>: The date the invoice is received from the Vendor
-- <b>1st approval</b>: The date the invoice was first approved
-- <b>2nd approval</b>: The date the invoice was approved by the 2nd approver
-- <b>Posting date</b>: When the invoice was posted to the system
-- <b>Payment performed</b>: When the payment was made to the Vendor
-- <b>Entity</b>: all cases relates to one entity - 4097 
-- <b>Account</b>: The unique identifier of the Vendor. We will be using this rather than the Vendor Name
-- <b>Comment</b>: If the process was a reversal of an existing process
-- <b>Gross Amount</b>: The gross amount for each case
+The initial event log consisted of 150370 cases between 1 January 2000 and 17 June 2013, spread over the years. The case column was used as the case ID. The event column was used as the activities and contained the following activities:
+- <b>Create fine</b>: The date the fine was created.
+- <b>Send fine</b>: The date the fine is sent to the offender
+- <b>Insert fine notification</b>: The date offender is notified about the fine (i.e., when the fine is dropped at the post office)
+- <b>Add penalty</b>: If the fine is not paid in 60 days from the creation, a penalty is added. This is the date the penalty is added
+- <b>Payment</b>: When the fine is paid. Note that a fine can be paid multiple times in installment
+- <b>Send for credit collection</b>: After 180 days, if the fine is not paid, it is sent to the credit collection agency
+- <b>Insert date appeal to prefecture</b>: The date the offender decides to appeal the fine to the prefecture 
+- <b>Send appeal to prefecture</b>: The date the offender sends the appeals the fine to the prefecture
+- <b>Receive result appeal from prefecture</b>: The date the offender receives the result of the appeal from the prefecture
+- <b>Notify result appeal to offender</b>: The date the offender is notified of the result of the appeal (similar to Insert fine notification above)
+- <b>Appeal to judge</b>: The date the offender appeals to a judge.
 
-# Data preparation
-The event log data was cleaned and transformed into a suitable format for process mining. This includes the following:
-The following activities were carried out:
-- Rename the columns to make them easier to reference and understand
-- Melt the data to get the dataframe into the required format for process mining
-- Remove rows with missing times. This is because from the dataset received, those activities do not occur in that particular purchase order.
-- Sort the event log using the unique identifier (<b>Document No.</b>) and Date column. This is to arrange each Purchase document accoring to how the activities were performed (by date)
-- Extracted completed cases. I assumed that the process is complete when the payment has been made (i.e., the last activity is <b>Payment performed</b>).
-- PowerBI Data format. One of the weakness I have noticed when using PowerBI for process mining is that where two activities are performed on the same date, it sorts these activities alphabetically. For example, if the <b>posting date</b> and <b>payment performed</b> activities were performed on the same day, the payment performed activity would come first before posting date even though in jupyter notebook, posting date comes first. To avoid this, I  included an <b>Event_ID</b> column so that to sort the activities properly in Powerbi.
+The dataset contains other attributes such as the amount (the offender has to pay), expense (the amount paid in sending the fine), paymentAmount (the amount the offender paid), totalPaymentAmount(the total amount the offender has paid), vehicle class (the class of the vehicle), article (the road article that was violated), etc.
+
+In analysing, it is important to use completed cases. The event log was filtered for those cases that either ends in Payment, sent for credit collection or dismissed following a successful appeal.
+
+# Data quality check and transformation
+The event log was reviewed to ensure the data contained were okay to use for process mining. The following was discovered:
+1. Python did not automatically identify the date column. This was fixed subsequently.
+2. Some columns had empty values. This was because certain activities require input in those columns while some do not. For example, expense column is filled only when the send fine activity is done.
+3. The org:resource column which indicates the user who performed a particular activity was constant through out the case. Therefore, it was not possible to check for disaggregation of duties or handover of work.
+4. Since the event log was gotten online, no process owner was contacted to gain further understanding of the process and other columns in the dataset. Therefore, if there are manual events in this process, it is not highlighted here.
 
 # Output and Visualisations
 ## Process discovery
-![alt text](https://github.com/nkwachiabel/Procure_to_Pay/blob/main/Images/Process%20Discovery.jpg?raw=true)
-
+![alt text]()
+---------------------------------------------------
 The Graphviz library was used to automatically generate a visual process model based on the event log data. 
 1. <b>Variant analysis</b>: This variant analysis shows how frequently a particular process is followed. From the above, we can see that there is a total of 26 variants. The first 4 variants account for about 83% of all process, Meanwhile 7 variants occur only once. There are some cases which were completed without any approval. These cases have been captured in Variants 1, 3, 9 and 16 comprise 694 cases.
 2. <b>Process graph</b>: The process graph shows how the activity flows from the start of a procurement process to the end. From the process graph, not all the cases need both approval. There are more of 1st approvals than 2nd approvals. In addition, there are four different start cases i.e., <i>Document Date</i>, <i>Invoice Received</i>, <i>1st approval</i>, and <i>Posting Date</i>. 694 payments representing 47% of the cases were made without approval. Out of these payments, 17 were reversals. Out of these payments, 402 (representing all payments made to <i>Vendor 401972</i> were made without approvals.
