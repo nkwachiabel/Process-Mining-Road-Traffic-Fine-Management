@@ -79,36 +79,33 @@ The Graphviz library was used to automatically generate a visual process model b
 ### Other findings
 * There are some users that carry out particular events in batches. For example, users 538, 550 and 536 performed the Send fine activity for 259, 195 and 176 cases respectively on 19 May 2003. Also, the three users performed the Insert fine notification activity 100, 69 and 65 times respectively on 25 May 2003.
 
-## Performance analysis
-![alt text](https://github.com/nkwachiabel/Procure_to_Pay/blob/main/Images/Performance%20analysis.jpg?raw=true)
+## Timing analysis
+![alt text]()
 
-Process performance metrics such as cycle time, and lead time were calculated for each activity or process step. Lead time provides the information of a duration of an event until another activity is performed.
-1. The average duration in days graph shows which event takes more time on an average. It shows that more time is spent on the <i>1st approval</i> activity and <i>Document Date</i> activity and the least amount on time is spent on the <i>2nd approval</i> activity.
-2. The transition matrix shows the average time it spends moving from one activity to another. The transition matrix shows that it takes an average of 32 days from <i>Document Date</i> activity to <i>1st approval</i>. It takes an average of 7 days from the <i>Invoice Received</i> activity to the <i>Payment performed</i>.
-3. The case duration graph shows that a lot of the cases are completed within 30 days. However, there are some outliers where cases lasts more that 200 days.
-4. <b>Payments</b>: There were 140 cases amounting to $501k which were paid late. There are 400 payments amounting to $383k which are recurring (same Vendor, same amount). Majority of these recurring payments (103) were paid to <i>Vendor 401972</i>.
+This analysis was done to confirm if there are deviations regarding the time when the events should be performed. Some performance indicators were developed.
+1. From research, each fine created should be completed within six months; they should either be paid, sent for credit collection or dismissed. The first test that was done was relating to the duration of each case. It indicated that out of 128,268 cases, 75,259 (59% of cases) were completed after 180 days.
+2. Looking at the individual cases, the send for credit collection event is where more time was spent. It takes an average of 525 days before a fine is sent for credit collection. This is way too long. One reason for this can be that the person who raised the fine is not monitoring the fines to adhere to the time limit.
+3. One thing to note is that the Add penalty activity is always followed. Looks like an automatic event that happens when it is up to 60 days since the fine was created but payment has not been made.
+4. There are 37,266 cases where the fine was sent after 90 days. Out of these fines which were delayed, 70% of them were sent to the credit collection agency. This might be because the offenders are already aware that these fines were sent out late and there would be no repercussion for not paying. The traffic prefects should be trained/reminded of this rule to avoid offenders getting away with fines. This also incurs cost to the management by paying for postal expenses which would not be recovered.
+5. There are 53,309 fines which have not been fully paid, but have not been sent to the credit collection agency.
+6. The 60 days time limit for appeals are not been adhered to by the offenders. Of the fines appealed to the judge, 36% of them were done after 60 days, while for those appealed to the prefect, 81% of them were done after 60 days. We are not sure if this time indicated when the actual appeal was made or when the prefect recorded this in the system. Either way, this shows a deviation from the expected process.
 
-![alt text](https://github.com/nkwachiabel/Procure_to_Pay/blob/main/Images/KPIs.jpg?raw=true)
 
-## Vendor dashboard
-![alt text](https://github.com/nkwachiabel/Procure_to_Pay/blob/main/Images/Vendor%20dashboard.jpg?raw=true)
-
-This dashboard shows information relating to a particular dashboard by using the filter at the top right of the screen.  
 
 ## Case details
-![alt text](https://github.com/nkwachiabel/Procure_to_Pay/blob/main/Images/Case%20dashboard.jpg?raw=true)
+![alt text]()
 
 This dashboard shows information relating to a particular case by using the filter at the top right of the screen.
 
 # Process improvement
 Based on the analysis, areas for improvement were identified such as:
-* Process redesign: Due to the lack of approval for majority of these payments, the procurement process should be redesigned to ensure that all payments are pre-approved. This is important to ensure segregation of duties and reduce the possibility of fraud. At least, there should be a limit on the amount that can be paid without approval and a limit when both 1st and 2nd approval is needed. It was noted that when a procurement needs to be reversed, a new process is initiated. The process should be redesigned such that the actual procurement raised should be reversible. This will enable proper monitoring of these requests. Regarding recurring payments, further investigation should be carried out especially on those recurring payments without approval. On the other hand, a separate process for recurring process can be designed such that it needs to be approved initially before the first payment.
-* Reducing approval delays: It takes an average of 4 days for the 2nd approver to carry out their task after the 1st approver is done. This causes unnecessary delays to these requests. It is recommended to set come up with maybe a notification to always remind the 2nd approver that a request is pending.
-* Avoid weekend payments: There were 6 instances where a payment was peformed on a weekend. This can be a fraud indicator. It is important to put in place system blockers to avoid instances such as this unless absolutely necessary.
-* Performance monitoring: A lot of time is spend between some activities such as Document Date. Lastly, a performance monitoring process should be put in place to track KPIs relating to the procurement process.
+* Process redesign: One of the areas of improvement can be understanding who does what activity. From the event log, it appears that the prefect does all the activities. This can be misleading as there can be human error or delay in inputing this event into the system. Activities such as Appeal to judge and appeal to prefecture should be done by the offender and the time this is done should be indicated.
+* Automating send to credit agency: The send to credit agency can be automated if certain conditions are met. For example, when a fine is creates, sent, no appeal and no payment made after a certain number of days. It makes the process easier and can help in early collection of fines by the collection agents. This will be relevant especially considering the fact that people move houses frequently and leaving it too long can lead to loss of fines.
+* Avoid delaying sending fines: A lot of fines were not sent within the 90 days fime frame. This is because while the prefect is outside on their duty post, they might not have the time to carry out other activities. I would suggest that there should be a segregation of duties between the prefects who create the fine and the person who sends the fine to the offender to avoid this delay. 
+* Improved communication: There were 3,889 times where a penalty was added after a payment was made. I think this either is as a result of delay in communication between the payment receiver and the prefect, or the prefect do not update the case with the payment on time to avoid triggering a penalty.
 
 # Limitation
-The dataset provided no information about the users in the process. 
+No process owner was reached out to confirm the validity of the expected process
 
 # Repository structure
 * 'Data/': Contains the data used for analysis
