@@ -28,7 +28,6 @@ The goal of this project is to:
 5. Microsoft PowerBI
 
 # Data collection
-![alt text]()
 The initial event log consisted of 150370 cases between 1 January 2000 and 17 June 2013, spread over the years. The case column was used as the case ID. The event column was used as the activities and contained the following activities:
 - <b>Create fine</b>: The date the fine was created.
 - <b>Send fine</b>: The date the fine is sent to the offender
@@ -60,15 +59,15 @@ This gives an overview of the dataset. It shows the number of fines, and events 
 
 The points by article number table shows that while Article 157, 7 and 158 are the most frequent articles violated, article 142 and 158 are the violations which result in most most points decucted. This is because Article 142 relates to Speeding tickets and Article 157/158 relates to parking fines.
 
-## Process discovery
+## Process discovery based on event log data
 ![alt text]()
 ---------------------------------------------------
-The Data Overview tab above, shows thw 
 The Graphviz library was used to automatically generate a visual process model based on the event log data. 
-1. <b>Variant analysis</b>: This variant analysis shows how frequently a particular process is followed. From the above, we can see that there is a total of 26 variants. The first 4 variants account for about 83% of all process, Meanwhile 7 variants occur only once. There are some cases which were completed without any approval. These cases have been captured in Variants 1, 3, 9 and 16 comprise 694 cases.
-2. <b>Process graph</b>: The process graph shows how the activity flows from the start of a procurement process to the end. From the process graph, not all the cases need both approval. There are more of 1st approvals than 2nd approvals. In addition, there are four different start cases i.e., <i>Document Date</i>, <i>Invoice Received</i>, <i>1st approval</i>, and <i>Posting Date</i>. 694 payments representing 47% of the cases were made without approval. Out of these payments, 17 were reversals. Out of these payments, 402 (representing all payments made to <i>Vendor 401972</i> were made without approvals.
-3. <b>Transition matrix</b>: The transition matrix shows how the events are been handed over from one to another and how frequently this occurs. From the above, it can be seen that <i>Payment performed</i> activity is not followed by any other activity i.e., that is the end of the process. However, all other events can be done before <i>Payment Performed</i> in no particular order. The most frequently occuring activity before <i>Payment performed</i> is the <i>Posting Date</i>. <i>Document Date</i> is mostly followed by <i>Invoice Received</i> and <i>Invoice Received</i> is mostly followed by <i>1st approval</i>. <i>2nd approval</i> is majorly done after <i>1st approval</i>. One thing to note from the transition matrix is that all other event can happen after <i>Posting Date</i>. It begs the question when should a procurement be posted? After approval?
-4. <b>Other findings</b>: From the above, it can be seen that there are some events which happen on Saturday and Sunday. 6 payments were made on Saturday and 1 on Sunday. The most frequently occuring activity in the weekend was <i>Document Date</i> which occured 156 times.
+1. <b>Variant analysis</b>: This variant analysis shows how frequently a particular process is followed. There was a total 193 variants with the top 5 variants acconting for 93% of the cases.
+2. <b>Events chart</b>: This shows when the events occur by the time of the week. It shows that most fines are created either on a Friday or Saturday (TGIF😄), payments were made on either a Monday or Tuesday and fines are sent for credit collection mostly on Tuesday or Sunday.
+3. <b>Process graph</b>: The process graph shows how the activity flows from the start of a procurement process to the end. From the process graph, all cases starts with the Creation of a fine. For Variant 2 cases, the offender pays the fine immediately it is created. Variant 2 accounts for approximately 36% of all cases. This maybe because for cases in Variants 2, these fines are paid immediately they are given. For other variants, after the case is created, it is sent to the offender and they are either paid or sent for credit collection.
+4. <b>Events transition matrix</b>: The transition matrix shows how the events are been handed over from one to another and how frequently this occurs.
+5. <b>Other findings</b>: There are some users that carry out particular events in batches. For example, users 538, 550 and 536 performed the Send fine activity for 259, 195 and 176 cases respectively on 19 May 2003. Also, the three users performed the Insert fine notification activity 100, 69 and 65 times respectively on 25 May 2003.
 
 ## Performance analysis
 ![alt text](https://github.com/nkwachiabel/Procure_to_Pay/blob/main/Images/Performance%20analysis.jpg?raw=true)
