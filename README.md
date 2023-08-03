@@ -53,7 +53,7 @@ The event log was reviewed to ensure the data contained were okay to use for pro
 
 # Output and Visualisations
 ## Data overview
-![alt text]()
+![alt text](https://github.com/nkwachiabel/Process-Mining-Road-Traffic-Fine-Management/blob/main/Images/Case%20details.jpg?raw=true)
 
 This gives an overview of the dataset. It shows the number of fines, and events and the total fine amount from these events. The stacked column chart at the top right shows the number of fines per year and the vehicle class. It is apparent that the users od vehicle class A are the most frequent traffic offenders.
 
