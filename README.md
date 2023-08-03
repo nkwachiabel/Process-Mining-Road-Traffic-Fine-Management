@@ -53,15 +53,15 @@ The event log was reviewed to ensure the data contained were okay to use for pro
 
 # Output and Visualisations
 ## Data overview
-![alt text]()
+![alt text](https://github.com/nkwachiabel/Process-Mining-Road-Traffic-Fine-Management/blob/main/Images/Data%20Overview.jpg?raw=true)
 
 This gives an overview of the dataset. It shows the number of fines, and events and the total fine amount from these events. The stacked column chart at the top right shows the number of fines per year and the vehicle class. It is apparent that the users od vehicle class A are the most frequent traffic offenders.
 
 The points by article number table shows that while Article 157, 7 and 158 are the most frequent articles violated, article 142 and 158 are the violations which result in most most points decucted. This is because Article 142 relates to Speeding tickets and Article 157/158 relates to parking fines.
 
 ## Process discovery based on event log data
-![alt text]()
----------------------------------------------------
+![alt text](https://github.com/nkwachiabel/Process-Mining-Road-Traffic-Fine-Management/blob/main/Images/Process%20discovery.jpg?raw=true)
+
 The Graphviz library was used to automatically generate a visual process model based on the event log data. 
 1. <b>Variant analysis</b>: This variant analysis shows how frequently a particular process is followed. There was a total 193 variants with the top 5 variants acconting for 93% of the cases.
 2. <b>Events chart</b>: This shows when the events occur by the time of the week. It shows that most fines are created either on a Friday or Saturday (TGIF😄), payments were made on either a Monday or Tuesday and fines are sent for credit collection mostly on Tuesday or Sunday.
@@ -76,11 +76,13 @@ The Graphviz library was used to automatically generate a visual process model b
 * <b>Create fine dismissal variable</b>: When a fine is created, the dismissal value is NIL. While the NIL variable is used for almost all cases in this activity, the dismissal variable 4, was used 2x, @ was used 9x, D and Z were used 1x.
 * <b>Successful dismissal</b>: As highlighted above, there are some cases where the successful dismissal variable is used (G and #) but those cases do not end with Send appeal to judge or prefecture.
 * <b>Receive result appeal from prefecture</b>: This activity is usually done when the appeal to the prefecture was not successful and should have a NIL dismissal variable. Below, there are 24 cases where a # variable was used instead.
+* <b>Add penalty to Send for credit collection</b>: For all cases which went transitioned from <i>Add penalty</i> to <i>Send for credit collection</i>, the least duration was 273 days; significantly higher than the expected 180 days. This shows either a lack of monitoring system or the prefects do not monitor the fines if they have been paid or not for onward forwarding to the credit agencies.
+* There were two cases (S66168 and N35881) where the fines were fully paid, but it was still sent to the credit agency for collection. Both fines were paid in 2002, but they were sent to the credit collection on 10 January 2004. That's about 2 years later.
 ### Other findings
 * There are some users that carry out particular events in batches. For example, users 538, 550 and 536 performed the Send fine activity for 259, 195 and 176 cases respectively on 19 May 2003. Also, the three users performed the Insert fine notification activity 100, 69 and 65 times respectively on 25 May 2003.
 
 ## Timing analysis
-![alt text]()
+![alt text](https://github.com/nkwachiabel/Process-Mining-Road-Traffic-Fine-Management/blob/main/Images/Timing%20analysis.jpg?raw=true)
 
 This analysis was done to confirm if there are deviations regarding the time when the events should be performed. Some performance indicators were developed.
 1. From research, each fine created should be completed within six months; they should either be paid, sent for credit collection or dismissed. The first test that was done was relating to the duration of each case. It indicated that out of 128,268 cases, 75,259 (59% of cases) were completed after 180 days.
@@ -90,19 +92,17 @@ This analysis was done to confirm if there are deviations regarding the time whe
 5. There are 53,309 fines which have not been fully paid, but have not been sent to the credit collection agency.
 6. The 60 days time limit for appeals are not been adhered to by the offenders. Of the fines appealed to the judge, 36% of them were done after 60 days, while for those appealed to the prefect, 81% of them were done after 60 days. We are not sure if this time indicated when the actual appeal was made or when the prefect recorded this in the system. Either way, this shows a deviation from the expected process.
 
-
-
 ## Case details
-![alt text]()
+![alt text](https://github.com/nkwachiabel/Process-Mining-Road-Traffic-Fine-Management/blob/main/Images/Case%20details.jpg?raw=true)
 
-This dashboard shows information relating to a particular case by using the filter at the top right of the screen.
+This dashboard shows information relating to a particular case by using the filter at the top left of the screen.
 
 # Process improvement
 Based on the analysis, areas for improvement were identified such as:
 * Process redesign: One of the areas of improvement can be understanding who does what activity. From the event log, it appears that the prefect does all the activities. This can be misleading as there can be human error or delay in inputing this event into the system. Activities such as Appeal to judge and appeal to prefecture should be done by the offender and the time this is done should be indicated.
 * Automating send to credit agency: The send to credit agency can be automated if certain conditions are met. For example, when a fine is creates, sent, no appeal and no payment made after a certain number of days. It makes the process easier and can help in early collection of fines by the collection agents. This will be relevant especially considering the fact that people move houses frequently and leaving it too long can lead to loss of fines.
 * Avoid delaying sending fines: A lot of fines were not sent within the 90 days fime frame. This is because while the prefect is outside on their duty post, they might not have the time to carry out other activities. I would suggest that there should be a segregation of duties between the prefects who create the fine and the person who sends the fine to the offender to avoid this delay. 
-* Improved communication: There were 3,889 times where a penalty was added after a payment was made. I think this either is as a result of delay in communication between the payment receiver and the prefect, or the prefect do not update the case with the payment on time to avoid triggering a penalty.
+* Improved communication: There were 3,889 times where a penalty was added after a payment was made and two cases where payment was made but still sent to the credit agencies. I think this either is as a result of delay in communication between the payment receiver and the prefect, or the prefect do not update the case with the payment on time to avoid triggering a penalty.
 
 # Limitation
 No process owner was reached out to confirm the validity of the expected process
