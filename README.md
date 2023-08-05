@@ -60,7 +60,7 @@ This gives an overview of the dataset. It shows the number of fines, and events 
 The points by article number table shows that while Article 157, 7 and 158 are the most frequent articles violated, article 142 and 158 are the violations which result in most most points decucted. This is because Article 142 relates to Speeding tickets and Article 157/158 relates to parking fines.
 
 ## Process discovery based on event log data
-![alt text](https://github.com/nkwachiabel/Process-Mining-Road-Traffic-Fine-Management/blob/main/Images/Process%20discovery.jpg?raw=true)
+![alt text](https://github.com/nkwachiabel/Process-Mining-Road-Traffic-Fine-Management/blob/main/Images/Process%20discovery%page.jpg?raw=true)
 
 The Graphviz library was used to automatically generate a visual process model based on the event log data. 
 1. <b>Variant analysis</b>: This variant analysis shows how frequently a particular process is followed. There was a total 193 variants with the top 5 variants acconting for 93% of the cases.
@@ -93,7 +93,7 @@ This analysis was done to confirm if there are deviations regarding the time whe
 6. The 60 days time limit for appeals are not been adhered to by the offenders. Of the fines appealed to the judge, 36% of them were done after 60 days, while for those appealed to the prefect, 81% of them were done after 60 days. We are not sure if this time indicated when the actual appeal was made or when the prefect recorded this in the system. Either way, this shows a deviation from the expected process.
 
 ## Case details
-![alt text](https://github.com/nkwachiabel/Process-Mining-Road-Traffic-Fine-Management/blob/main/Images/Case%20details.jpg?raw=true)
+![alt text](https://github.com/nkwachiabel/Process-Mining-Road-Traffic-Fine-Management/blob/main/Images/Case%20details%page.jpg?raw=true)
 
 This dashboard shows information relating to a particular case by using the filter at the top left of the screen.
 
