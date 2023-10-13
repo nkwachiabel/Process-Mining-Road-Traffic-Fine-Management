@@ -4,6 +4,7 @@ This repository contains a data analytics project that utilizes process mining m
 
 ### Credits
 <b>Publisher</b>: Eindhoven University of Technology
+
 <b>References</b>: https://doi.org/10.1007/s00607-015-0441-1
 
 # Project Overview
